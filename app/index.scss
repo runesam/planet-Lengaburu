@@ -1,0 +1,12 @@
+@import "variable";
+@import "./assets/styles/font-awesome";
+
+body {
+  background: url("assets/images/background.jpg");
+  & * {
+    font-family: ITCHandel, Etelka-Light, arial, serif;
+  }
+  .container {
+    min-height: calc(100vh - 100px);
+  }
+}

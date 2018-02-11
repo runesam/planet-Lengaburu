@@ -26,6 +26,11 @@ coverage
 # Bower dependency directory (https://bower.io/)
 bower_components
 
+# parcel cache directory (https://parcel.org/)
+.cache
+dist
+.idea
+
 # node-waf configuration
 .lock-wscript
 

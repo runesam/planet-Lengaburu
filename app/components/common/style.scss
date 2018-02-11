@@ -1,0 +1,50 @@
+nav {
+  .active {
+    color: coral;
+    font-weight: 600;
+  }
+}
+
+header {
+  position: relative;
+  height: 50px;
+  background: #009688;
+  color: white;
+  text-align: center;
+  .home {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    font-size: 1.7em;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    line-height: 20px;
+    padding-top: 3px;
+    text-transform: uppercase;
+    strong {
+      font-size: 1.4em;
+    }
+  }
+}
+
+footer {
+  position: relative;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  text-align: center;
+  & > a.fa-connectdevelop {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 1.7em;
+    color: white;
+  }
+  button {
+    margin-top: 5px;
+    width: calc(100vw - 120px);
+    text-transform: uppercase;
+  }
+}

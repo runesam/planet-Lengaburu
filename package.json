@@ -4,7 +4,7 @@
   "description": "Queen Al Falcone is now in hiding. But if King Shan can find ...",
   "main": "index.js",
   "scripts": {
-    "test": "mocha find ./app -name '*test.js' --require ignore-styles --require setup.js --require babel-register --recursive --watch",
+    "test": "mocha ./app -name '*test.js' --require ignore-styles --require setup.js --require babel-register --recursive --watch",
     "dev": "parcel index.html -p 3000",
     "start": "npm-run-all -p dev test",
     "build": "parcel build index.html --no-minify --public-url /"

@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastr';
 import './index.scss';
 import Header from './components/common/header';
 import Footer from './components/common/footer';
+
 import Home from './containers/home/index';
 
 import general from './utils/general';
@@ -14,7 +15,9 @@ class App extends PureComponent {
 		super(props);
 		this.getPlanets = this.getPlanets.bind(this);
 		this.addPlanet = this.addPlanet.bind(this);
-		this.updateSelection = this.updateSelection.bind(this);
+		this.removePlanet = this.removePlanet.bind(this);
+		this.updateCurrentSelection = this.updateCurrentSelection.bind(this);
+		this.toast = this.toast.bind(this);
 		this.state = {
 			planets: [],
 			vehicles: [],
@@ -24,10 +27,20 @@ class App extends PureComponent {
 	}
 
 	getPlanets() {
-		general.getData('planets').then(planets => this.setState({ planets }, () => general.getData('vehicles').then(vehicles => this.setState({ vehicles }))));
+		general.getData('planets').then(planets => this.setState({
+			planets: planets.map(planet => Object.assign(planet, {
+				key: `${planet.name} (Distance: ${planet.distance})`,
+			})),
+		}, () => general.getData('vehicles').then(vehicles => this.setState({
+			vehicles: vehicles.map(vehicle => Object.assign(vehicle, {
+				key: `${vehicle.name} (Max Distance: ${vehicle.max_distance}) (${vehicle.total_no})`,
+			})),
+		}, () => {
+			this.vehicles = this.state.vehicles;
+		}))));
 	}
 
-	updateSelection(of, item) {
+	updateCurrentSelection(of, item) {
 		this.setState({
 			currentSelection: Object.assign({}, this.state.currentSelection, { [of]: item }),
 		});
@@ -37,7 +50,12 @@ class App extends PureComponent {
 		Object.keys(this.state.currentSelection).forEach((of) => {
 			const temp = this.state[`${of}s`];
 			const itemIndex = temp.findIndex(i => i.name === this.state.currentSelection[of].name);
-			temp.splice(itemIndex, 1);
+			if (of === 'planet') {
+				temp.splice(itemIndex, 1);
+			} else {
+				temp[itemIndex].total_no -= 1;
+				temp[itemIndex].key = `${temp[itemIndex].name} (Max Distance: ${temp[itemIndex].max_distance}) (${temp[itemIndex].total_no})`;
+			}
 			this.setState({
 				[`${of}s`]: temp,
 			});
@@ -45,6 +63,29 @@ class App extends PureComponent {
 		this.setState({
 			selectedPlanets: [...this.state.selectedPlanets, this.state.currentSelection],
 			currentSelection: {},
+		});
+	}
+
+	removePlanet({ planet, vehicle }) {
+		const selectedPlanets = [...this.state.selectedPlanets];
+		const planetIndex = selectedPlanets.findIndex(i => i.planet.name === planet.name);
+		const vehicleIndex = this.state.vehicles.findIndex(i => i.name === vehicle.name);
+		selectedPlanets.splice(planetIndex, 1);
+		const planets = [...this.state.planets, planet];
+		const vehicles = [...this.state.vehicles];
+		vehicles[vehicleIndex].total_no += 1;
+		vehicles[vehicleIndex].key = `${vehicles[vehicleIndex].name} (Max Distance: ${vehicles[vehicleIndex].max_distance}) (${vehicles[vehicleIndex].total_no})`;
+
+		this.setState({
+			selectedPlanets,
+			planets,
+			vehicles,
+		});
+	}
+
+	toast(status, message) {
+		this.toaster[status](message, '', {
+			closeButton: true,
 		});
 	}
 
@@ -65,7 +106,7 @@ class App extends PureComponent {
 							}}
 							className="toast-top-right"
 						/>
-						<Header />
+						<Header selectedPlanets={selectedPlanets} />
 						<div className='container'>
 							<Switch>
 								<Route
@@ -74,9 +115,11 @@ class App extends PureComponent {
 									render={routeProps => (
 										<Home
 											{...routeProps}
-											updateSelection={this.updateSelection}
+											updateSelection={this.updateCurrentSelection}
 											getPlanets={this.getPlanets}
 											addPlanet={this.addPlanet}
+											removePlanet={this.removePlanet}
+											toast={this.toast}
 											planets={planets}
 											vehicles={vehicles}
 											currentSelection={currentSelection}

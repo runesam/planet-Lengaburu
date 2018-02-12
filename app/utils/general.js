@@ -7,13 +7,12 @@ module.exports = {
 			behavior: 'smooth',
 		});
 	},
-	updateArray: (arr) => {
-		const temp = arr.slice();
-		if (arr.length === 5) {
-			temp.splice(arr.length - 2, 1);
+	toCamelCase: str => str.split(' ').map((word, index) => {
+		if (index === 0) {
+			return word.toLowerCase();
 		}
-		return temp;
-	},
+		return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+	}).join(''),
 	getData: async (uri, data) => {
 		const URL = `https://findfalcone.herokuapp.com/${uri}`;
 		try {

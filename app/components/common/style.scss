@@ -27,24 +27,104 @@ header {
       font-size: 1.4em;
     }
   }
+  .right {
+    position: absolute;
+    & > div {
+      margin-right: 10px;
+    }
+    top: 10px;
+    right: 15px;
+    font-size: 1.3em;
+  }
 }
 
 footer {
   position: relative;
   height: 50px;
-  background: rgba(0, 0, 0, 0.4);
+  background: black;
   color: white;
   text-align: center;
-  & > a.fa-connectdevelop {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 1.7em;
-    color: white;
-  }
+  overflow: hidden;
+  padding: 0 10px;
   button {
+    i.fa-connectdevelop {
+      font-size: 1.7em;
+      color: white;
+    }
     margin-top: 5px;
-    width: calc(100vw - 120px);
     text-transform: uppercase;
+    height: 40px;
+    &.reset {
+      width: 100px;
+      font-size: 0.7em;
+      margin-right: 10px;
+    }
+    &.next {
+      font-size: 0.9em;
+      font-weight: 600;
+      width: calc(100vw - 220px);
+      margin-right: 10px;
+    }
+  }
+}
+
+$main: red;
+$alternative: rgb(0, 162, 255);
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate2 {
+  0% {
+    transform: rotate(0deg);
+    border-top-color: $main;
+  }
+  50% {
+    transform: rotate(180deg);
+    border-top-color: $alternative;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-top-color: $main;
+  }
+}
+
+@mixin loaderDivMixin {
+  border-radius: 50%;
+  padding: 8px;
+  border: 2px solid transparent;
+  animation: rotate linear 3.5s infinite;
+}
+
+.loader {
+  position: relative;
+  margin: 75px auto;
+  width: 150px;
+  height: 150px;
+  display: block;
+  overflow: hidden;
+  will-change: transform;
+  & * {
+    will-change: transform;
+  }
+  div {
+    height: 100%;
+    &:hover {
+      animation-play-state: paused;
+    }
+  }
+  &.loader1, &.loader1 div {
+    @include loaderDivMixin;
+    border-top-color: $main;
+    border-bottom-color: $alternative;
   }
 }

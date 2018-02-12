@@ -9,32 +9,38 @@ const Selectors = ({
        vehicles,
        currentSelection,
    }) => (
-	<div className='single-planet'>
-		<Select
-			closeOnSelect
-			disabled={false}
-			onChange={handleSelectPlanet}
-			options={planets}
-			placeholder='Select planets you want to search in'
-			removeSelected
-			simpleValue={false}
-			valueKey='name'
-			labelKey='name'
-			value={currentSelection.planet}
-		/>
-		{currentSelection.planet && (
+	<div>
+		<br />
+		<div className='col-12'>
 			<Select
 				closeOnSelect
 				disabled={false}
-				onChange={handleSelectVehicle}
-				options={vehicles}
-				placeholder='Select vehicle you want to search in'
+				onChange={handleSelectPlanet}
+				options={planets}
+				placeholder='Select planets you want to search in'
 				removeSelected
 				simpleValue={false}
 				valueKey='name'
-				labelKey='name'
-				value={currentSelection.vehicle}
+				labelKey='key'
+				value={currentSelection.planet}
 			/>
+		</div>
+		<br />
+		{currentSelection.planet && (
+			<div className='col-12'>
+				<Select
+					closeOnSelect
+					disabled={false}
+					onChange={handleSelectVehicle}
+					options={vehicles}
+					placeholder='Select vehicle you want to search in'
+					removeSelected
+					simpleValue={false}
+					valueKey='name'
+					labelKey='key'
+					value={currentSelection.vehicle}
+				/>
+			</div>
 		)}
 	</div>
 );

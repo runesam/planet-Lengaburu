@@ -32,23 +32,24 @@ class App extends PureComponent {
 		};
 	}
 
-	getPlanets() {
-		general.getData('planets').then(planets => this.setState({
-			planets: general.adjustPlanetsName(planets),
-		}, () => general.getData('vehicles').then(vehicles => this.setState({
-			vehicles: general.adjustVehiclesName(vehicles),
-			promise: false,
-		}, () => {
-			// taking copy of vehicles and planets for reset purpose
-			this.vehicles = [...this.state.vehicles];
-			this.planets = [...this.state.planets];
-		}))));
+	getPlanets(fetch) {
+		general.getData('planets', fetch).then((planets) => {
+			this.setState({
+				planets: general.adjustPlanetsName(planets),
+			}, () => general.getData('vehicles', fetch).then(vehicles => this.setState({
+				vehicles: general.adjustVehiclesName(vehicles),
+				promise: false,
+			}, () => {
+				// taking copy of vehicles and planets for reset purpose
+				this.vehicles = [...this.state.vehicles];
+				this.planets = [...this.state.planets];
+			})));
+		});
 	}
 
 	updateCurrentSelection(of, item) {
-		this.setState({
-			currentSelection: Object.assign({}, this.state.currentSelection, { [of]: item }),
-		});
+		const currentSelection = of === 'planet' && !item ? {} : Object.assign({}, this.state.currentSelection, { [of]: item });
+		this.setState({ currentSelection });
 	}
 
 	addPlanet() {

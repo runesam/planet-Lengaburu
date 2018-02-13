@@ -27,7 +27,7 @@ class Home extends PureComponent {
 
 	handleSelectPlanet(item) {
 		const { vehicle } = this.props.currentSelection;
-		if (vehicle && item.distance > vehicle.max_distance) {
+		if (vehicle && item && item.distance > vehicle.max_distance) {
 			return this.props.toast('error', `${vehicle.name} won't make it to ${item.name}`);
 		}
 		this.props.updateSelection('planet', item);
@@ -38,7 +38,7 @@ class Home extends PureComponent {
 			return this.props.toast('error', `No ${item.name} left to select`);
 		}
 		const { planet } = this.props.currentSelection;
-		if (item.max_distance < planet.distance) {
+		if (item && item.max_distance < planet.distance) {
 			return this.props.toast('error', `${item.name} won't make it to ${planet.name}`);
 		}
 		this.props.updateSelection('vehicle', item);

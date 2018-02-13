@@ -37,20 +37,19 @@ function getContent(status, images, planetName, totalTimes) {
 	});
 }
 
-async function getData(uri, data) {
+async function getData(uri, fetch) {
+	const Fetch = fetch || window.fetch;
 	const URL = `https://findfalcone.herokuapp.com/${uri}`;
-	try {
-		const promise = await fetch(URL, data || null);
-		return await promise.json();
-	} catch (reason) {
-		return reason;
-	}
+	const promise = await Fetch(URL);
+	const json = await promise.json();
+	return json;
 }
 
-async function postData(uri, data) {
+async function postData(uri, data, fetch) {
+	const Fetch = fetch || window.fetch;
 	const URL = `https://findfalcone.herokuapp.com/${uri}`;
 	try {
-		const promise = await fetch(URL, {
+		const promise = await Fetch(URL, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',

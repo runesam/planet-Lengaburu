@@ -54,24 +54,19 @@ class Result extends PureComponent {
 		if (!this.props.result) {
 			return <Loader />;
 		}
-		const { status, planet_name } = this.props.result;
-		const content = {
-			h4: status === 'success' ? `👏💫⭐ ${status.toUpperCase()} ️⭐️💫👏` : `💥😡㊗️ ${status.toUpperCase()} ️㊗️️😡💥`,
-			h5: status === 'success' ? 'congratulations on Finding Falcone. King Chan is mighty pleased' : 'oh ** We couldn\'t find Falcone. King Chan is very mad',
-			time: status === 'success' ? `🕔 Taken: ${this.totalTimes}` : `🕔 Wasted: ${this.totalTimes}`,
-			planet: status === 'success' ? images[general.toCamelCase(planet_name)] : null,
-
-		};
+		const { status } = this.props.result;
+		const planetName = this.props.result.planet_name;
+		const content = general.getContent(status, images, planetName, this.totalTimes);
 		return (
 			<div className='resultContainer' style={{ color: 'white' }}>
 				{!this.props.result && <Redirect to='/' />}
 				<h4>{content.h4}</h4>
 				<h5>{content.h5}</h5>
 				<p>{content.time}</p>
-				<p>{`Planet Found: ${planet_name || 'No Where'}`}</p>
+				<p>{`Planet Found: ${planetName || 'No Where'}`}</p>
 				{content.planet && <img
 					src={content.planet}
-					alt={planet_name}
+					alt={planetName}
 				/>}
 				<br />
 				<br />

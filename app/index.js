@@ -34,15 +34,12 @@ class App extends PureComponent {
 
 	getPlanets() {
 		general.getData('planets').then(planets => this.setState({
-			planets: planets.map(planet => Object.assign(planet, {
-				key: `${planet.name} (Distance: ${planet.distance})`,
-			})),
+			planets: general.adjustPlanetsName(planets),
 		}, () => general.getData('vehicles').then(vehicles => this.setState({
-			vehicles: vehicles.map(vehicle => Object.assign(vehicle, {
-				key: `${vehicle.name} (Max Distance: ${vehicle.max_distance}) (${vehicle.total_no})`,
-			})),
+			vehicles: general.adjustVehiclesName(vehicles),
 			promise: false,
 		}, () => {
+			// taking copy of vehicles and planets for reset purpose
 			this.vehicles = [...this.state.vehicles];
 			this.planets = [...this.state.planets];
 		}))));
@@ -56,7 +53,7 @@ class App extends PureComponent {
 
 	addPlanet() {
 		Object.keys(this.state.currentSelection).forEach((of) => {
-			const temp = this.state[`${of}s`];
+			const temp = [...this.state[`${of}s`]];
 			const itemIndex = temp.findIndex(i => i.name === this.state.currentSelection[of].name);
 			if (of === 'planet') {
 				temp.splice(itemIndex, 1);

@@ -52,7 +52,7 @@ class Home extends PureComponent {
 		this.props.addPlanet();
 	}
 
-	renderSelections() {
+	renderSelectors() {
 		if (this.props.selectedPlanets.length < 4) {
 			return (
 				<Selectors
@@ -122,7 +122,7 @@ class Home extends PureComponent {
 					{this.props.selectedPlanets.length > 0 && this.renderSelectedPlanets()}
 				</div>
 				<div className='select-planets'>
-					{this.props.planets.length && this.renderSelections()}
+					{this.props.planets.length && this.renderSelectors()}
 				</div>
 				{this.renderAddPlanetButton()}
 				<br />

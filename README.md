@@ -1,29 +1,7 @@
-# UMAI Front-End Role Tasks
+# Finding Falcone Front-End Task
 
 ## Introduction
-#### Task 1
-##### Build a responsive web application to calculate simple and compound interest.
-
-1. User should be able to select one of the 2 options - Simple or Compound interest.
-2. Depending on the options chosen by the user, following fields should be shown: principal, rate of interest, time period, compound frequency(yearly, half yearly etc.)
-3. User should be able to fill these fields
-4. User should be to see the result when clicks the button - Result should include:
-
-a table that shows calculated interests and total amounts for each year
-At the bottom - Grand total of interest and amount for all the years
-Note - Write test cases
-
-#####Technology Stack:
-
-ReactJs, Redux
-
-####Task - 2
-
-#####Convert these PSDs (desktop and mobile) to responsive Html/css:
-
-https://drive.google.com/drive...
-
-It should take about a day to finish the task.
+##### Our problem is set in the planet of Lengaburu…in the distant distant galaxy of Tara B. After the recent war with neighbouring  planet Falicornia, King Shan has exiled the Queen of Falicornia  for 15 years. Queen Al Falcone is now in hiding. But if King Shan can find her before the years are up, she will be exiled for another 15 years….
 
 
 ## Installation
@@ -40,16 +18,17 @@ It should take about a day to finish the task.
 ##Navigation
 
 ###### change port '3000' to the provided port in case it was busy.
-
-##### For Task 1 navigate to 
-    http://localhost:3000/calculator
     
-##### For Task 2 navigate to 
+##### navigate to 
     http://localhost:3000/
 
 ## Find in the app
 * Eslint Airbnb
-* Redux for state management
-* Redux Form
 * Mocha as test framework
 * Enzyme to test react component
+
+## Notes
+* App is not fully tested
+* All components meant to be stateless but the parent component emulating a store
+* App been made with mobile first and there is a lot to do on the desktop view
+* No CSS architecture (OOCSS or BEM etc.) it slows me down :). but for sure must to be considered for big apps 

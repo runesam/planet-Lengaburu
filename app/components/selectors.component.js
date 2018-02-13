@@ -2,6 +2,8 @@ import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 
+import general from './../utils/general';
+
 const Selectors = ({
        handleSelectPlanet,
        handleSelectVehicle,
@@ -23,6 +25,7 @@ const Selectors = ({
 				valueKey='name'
 				labelKey='key'
 				value={currentSelection.planet}
+				onFocus={general.scrollDown}
 			/>
 		</div>
 		<br />
@@ -39,7 +42,9 @@ const Selectors = ({
 					valueKey='name'
 					labelKey='key'
 					value={currentSelection.vehicle}
+					onFocus={general.scrollDown}
 				/>
+				<br />
 			</div>
 		)}
 	</div>

@@ -1,14 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import './style.scss';
-import PropTypes from "prop-types";
 
 const Header = ({ selectedPlanets }) => {
 	const totalTimes = selectedPlanets.reduce((a, i) => (i.planet.distance / i.vehicle.speed) + a, 0);
-	console.log(totalTimes);
 	return (
 		<header>
-			<div className='home fa fa-home' />
+			<Link to='/' href='/'>
+				<div className='home fa fa-home' />
+			</Link>
 			<div className="title">
 				<span>finding</span>
 				<strong>falcone</strong>

@@ -1,11 +1,11 @@
 module.exports = {
 	scrollDown: () => {
-		const target = document.getElementsByTagName('body')[0].scrollHeight;
-		window.scrollBy({
+		const target = document.querySelector('.container').scrollHeight;
+		setTimeout(() => document.querySelector('.container').scrollBy({
 			top: target,
 			left: 0,
 			behavior: 'smooth',
-		});
+		}));
 	},
 	toCamelCase: str => str.split(' ').map((word, index) => {
 		if (index === 0) {

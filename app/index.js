@@ -7,6 +7,7 @@ import Header from './components/common/header';
 import Footer from './components/common/footer';
 
 import Home from './containers/home/index';
+import Result from './containers/result/index';
 
 import general from './utils/general';
 
@@ -14,15 +15,20 @@ class App extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.getPlanets = this.getPlanets.bind(this);
+		this.findFalcone = this.findFalcone.bind(this);
 		this.addPlanet = this.addPlanet.bind(this);
 		this.removePlanet = this.removePlanet.bind(this);
 		this.updateCurrentSelection = this.updateCurrentSelection.bind(this);
 		this.toast = this.toast.bind(this);
+		this.resetFields = this.resetFields.bind(this);
 		this.state = {
 			planets: [],
 			vehicles: [],
 			selectedPlanets: [],
 			currentSelection: {},
+			result: null,
+			// result: { planet_name: 'Jebing', status: 'success' },
+			promise: true,
 		};
 	}
 
@@ -35,6 +41,7 @@ class App extends PureComponent {
 			vehicles: vehicles.map(vehicle => Object.assign(vehicle, {
 				key: `${vehicle.name} (Max Distance: ${vehicle.max_distance}) (${vehicle.total_no})`,
 			})),
+			promise: false,
 		}, () => {
 			this.vehicles = this.state.vehicles;
 		}))));
@@ -89,6 +96,40 @@ class App extends PureComponent {
 		});
 	}
 
+	resetFields() {
+		this.setState({
+			vehicles: this.vehicles || [],
+			selectedPlanets: [],
+			currentSelection: {},
+			result: null,
+		});
+	}
+
+	findFalcone() {
+		this.setState({
+			promise: true,
+		}, () => {
+			const planetNames = this.state.selectedPlanets.map(item => item.planet.name);
+			const vehicleNames = this.state.selectedPlanets.map(item => item.vehicle.name);
+			general.postData('token').then(({ token }) => {
+				general.postData('find', {
+					token,
+					planet_names: planetNames,
+					vehicle_names: vehicleNames,
+				}).then((result) => {
+					if (Object.hasOwnProperty.call(result, 'status')) {
+						return this.setState({
+							result,
+							promise: false,
+						});
+					}
+					this.toast('error', result.error);
+					return this.setState({ promise: false });
+				});
+			});
+		});
+	}
+
 	render() {
 		const {
 			planets,
@@ -120,17 +161,36 @@ class App extends PureComponent {
 											addPlanet={this.addPlanet}
 											removePlanet={this.removePlanet}
 											toast={this.toast}
+											resetFields={this.resetFields}
 											planets={planets}
 											vehicles={vehicles}
 											currentSelection={currentSelection}
 											selectedPlanets={selectedPlanets}
+											result={this.state.result}
+											promise={this.state.promise}
 										/>
 									)}
 								/>
-								{/* <Route exact path='/calculator' component={calculator} /> */}
+								<Route
+									exact
+									path='/result'
+									render={routeProps => (
+										<Result
+											{...routeProps}
+											result={this.state.result}
+											selectedPlanets={selectedPlanets}
+											resetFields={this.resetFields}
+										/>
+									)}
+								/>
 							</Switch>
 						</div>
-						<Footer />
+						<Footer
+							resetFields={this.resetFields}
+							findFalcone={this.findFalcone}
+							selectedPlanets={this.state.selectedPlanets}
+							result={this.state.result}
+						/>
 					</div>
 				</Router>
 			</div>

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import Selectors from './../../components/selectors.component';
 import SelectedPlanet from './../../components/selectedPlanet.component';
@@ -14,6 +15,10 @@ class Home extends PureComponent {
 		this.handleSelectVehicle = this.handleSelectVehicle.bind(this);
 		this.removeSelected = this.removeSelected.bind(this);
 		this.addPlanet = this.addPlanet.bind(this);
+	}
+
+	componentWillMount() {
+		this.props.resetFields();
 	}
 
 	componentDidMount() {
@@ -48,15 +53,18 @@ class Home extends PureComponent {
 	}
 
 	renderSelections() {
-		return (
-			<Selectors
-				handleSelectPlanet={this.handleSelectPlanet}
-				handleSelectVehicle={this.handleSelectVehicle}
-				planets={this.props.planets}
-				vehicles={this.props.vehicles}
-				currentSelection={this.props.currentSelection}
-			/>
-		);
+		if (this.props.selectedPlanets.length < 4) {
+			return (
+				<Selectors
+					handleSelectPlanet={this.handleSelectPlanet}
+					handleSelectVehicle={this.handleSelectVehicle}
+					selectedPlanets={this.props.selectedPlanets}
+					planets={this.props.planets}
+					vehicles={this.props.vehicles}
+					currentSelection={this.props.currentSelection}
+				/>
+			);
+		}
 	}
 
 	renderSelectedPlanets() {
@@ -70,12 +78,35 @@ class Home extends PureComponent {
 		));
 	}
 
+	renderAddPlanetButton() {
+		if (this.props.selectedPlanets.length < 4) {
+			return (
+				<button
+					className='col-8 btn btn-outline-success'
+					onClick={this.addPlanet}
+					disabled={
+						!Object.hasOwnProperty.call(this.props.currentSelection, 'planet')
+						||
+						!this.props.currentSelection.planet
+						||
+						!Object.hasOwnProperty.call(this.props.currentSelection, 'vehicle')
+						||
+						!this.props.currentSelection.vehicle
+					}
+				>
+					Add Planet
+				</button>
+			);
+		}
+	}
+
 	render() {
-		if (!this.props.planets.length) {
+		if (this.props.promise) {
 			return <Loader />;
 		}
 		return (
 			<div className='homeContainer'>
+				{this.props.result && <Redirect to='/result' />}
 				<div className='step-title'>
 					<p>Select planets you want to search in</p>
 				</div>
@@ -85,22 +116,8 @@ class Home extends PureComponent {
 				<div className='select-planets'>
 					{this.props.planets.length && this.renderSelections()}
 				</div>
+				{this.renderAddPlanetButton()}
 				<br />
-				<button
-					className='col-8 btn btn-outline-success'
-					onClick={this.addPlanet}
-					disabled={
-						!Object.hasOwnProperty.call(this.props.currentSelection, 'planet')
-							||
-						!this.props.currentSelection.planet
-							||
-						!Object.hasOwnProperty.call(this.props.currentSelection, 'vehicle')
-							||
-						!this.props.currentSelection.vehicle
-					}
-				>
-					Add Planet
-				</button>
 			</div>
 		);
 	}
@@ -112,10 +129,13 @@ Home.defaultProps = {
 	addPlanet: PropTypes.func,
 	removePlanet: PropTypes.func,
 	toast: PropTypes.func,
+	resetFields: PropTypes.func,
 	currentSelection: PropTypes.object,
+	result: PropTypes.object,
 	planets: PropTypes.array,
 	vehicles: PropTypes.array,
 	selectedPlanets: PropTypes.array,
+	promise: PropTypes.bool,
 };
 
 Home.propTypes = {
@@ -124,10 +144,13 @@ Home.propTypes = {
 	addPlanet: PropTypes.func,
 	removePlanet: PropTypes.func,
 	toast: PropTypes.func,
+	resetFields: PropTypes.func,
 	currentSelection: PropTypes.object,
+	result: PropTypes.object,
 	planets: PropTypes.array,
 	vehicles: PropTypes.array,
 	selectedPlanets: PropTypes.array,
+	promise: PropTypes.bool,
 };
 
 export default Home;

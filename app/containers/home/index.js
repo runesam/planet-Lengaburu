@@ -79,10 +79,11 @@ class Home extends PureComponent {
 	}
 
 	renderAddPlanetButton() {
-		if (this.props.selectedPlanets.length < 4) {
-			return (
+		return (
+			<div className='action-buttons'>
+				{this.props.selectedPlanets.length < 4 &&
 				<button
-					className='col-8 btn btn-outline-success'
+					className='col-8 col-md-5 btn btn-outline-success'
 					onClick={this.addPlanet}
 					disabled={
 						!Object.hasOwnProperty.call(this.props.currentSelection, 'planet')
@@ -95,9 +96,16 @@ class Home extends PureComponent {
 					}
 				>
 					Add Planet
+				</button>}
+				<button
+					className='d-none d-md-block col-md-5 btn btn-outline-primary'
+					disabled={this.props.selectedPlanets.length < 4 || this.props.result}
+					onClick={this.props.findFalcone}
+				>
+					FINDING FALCONE
 				</button>
-			);
-		}
+			</div>
+		);
 	}
 
 	render() {
@@ -130,6 +138,7 @@ Home.defaultProps = {
 	removePlanet: PropTypes.func,
 	toast: PropTypes.func,
 	resetFields: PropTypes.func,
+	findFalcone: PropTypes.func,
 	currentSelection: PropTypes.object,
 	result: PropTypes.object,
 	planets: PropTypes.array,
@@ -145,6 +154,7 @@ Home.propTypes = {
 	removePlanet: PropTypes.func,
 	toast: PropTypes.func,
 	resetFields: PropTypes.func,
+	findFalcone: PropTypes.func,
 	currentSelection: PropTypes.object,
 	result: PropTypes.object,
 	planets: PropTypes.array,

@@ -41,7 +41,7 @@ class SelectedPlanet extends PureComponent {
 	render() {
 		const { planet, vehicle } = this.props;
 		return (
-			<div className='col-12 selected-planet'>
+			<div className='col-12 col-md-6 selected-planet'>
 				<div className='col-5'>
 					<p>{planet.name}</p>
 					<img src={images[general.toCamelCase(planet.name)]} alt={planet.name} />

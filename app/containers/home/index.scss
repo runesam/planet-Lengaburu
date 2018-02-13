@@ -54,4 +54,22 @@
     display: block;
     margin: 0 auto;
   }
+  @media screen and (min-width: 768px) {
+    .selected-planets {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .selected-planet {
+        max-width: calc(50% - 5px);
+        &:nth-child(odd) {
+          margin-right: 10px;
+        }
+      }
+    }
+    .action-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 }

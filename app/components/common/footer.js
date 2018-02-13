@@ -10,20 +10,26 @@ const Footer = ({
     result,
 }) => (
 	<footer>
-		<button
-			className='btn btn-outline-danger reset'
-			onClick={resetFields}
-			disabled={result}
-		>
-			reset fields
-		</button>
-		<button
-			className='btn btn-outline-primary next'
-			disabled={selectedPlanets.length < 4 || result}
-			onClick={findFalcone}
-		>
-			FINDING FALCONE
-		</button>
+		<div className='action-buttons'>
+			<button
+				className='btn btn-outline-danger reset'
+				onClick={resetFields}
+				disabled={result}
+			>
+				reset fields
+			</button>
+			<button
+				className='btn btn-outline-primary next'
+				disabled={selectedPlanets.length < 4 || result}
+				onClick={findFalcone}
+			>
+				FINDING FALCONE
+			</button>
+		</div>
+		<div className='float-left author'>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			Duis aliquam erat in ante malesuada, facilisis semper nulla semper.
+		</div>
 		<button className='btn btn-outline-success'>
 			<a href='https://github.com/runesam' rel='noopener noreferrer' target='_blank' content='about the developer'>
 				<i className="fa fa-connectdevelop" />

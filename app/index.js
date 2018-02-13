@@ -43,7 +43,8 @@ class App extends PureComponent {
 			})),
 			promise: false,
 		}, () => {
-			this.vehicles = this.state.vehicles;
+			this.vehicles = [...this.state.vehicles];
+			this.planets = [...this.state.planets];
 		}))));
 	}
 
@@ -99,6 +100,7 @@ class App extends PureComponent {
 	resetFields() {
 		this.setState({
 			vehicles: this.vehicles || [],
+			planets: this.planets || [],
 			selectedPlanets: [],
 			currentSelection: {},
 			result: null,
@@ -162,6 +164,7 @@ class App extends PureComponent {
 											removePlanet={this.removePlanet}
 											toast={this.toast}
 											resetFields={this.resetFields}
+											findFalcone={this.findFalcone}
 											planets={planets}
 											vehicles={vehicles}
 											currentSelection={currentSelection}

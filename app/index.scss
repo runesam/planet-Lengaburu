@@ -3,15 +3,28 @@
 @import "./assets/styles/toastr";
 @import "./assets/styles/animate";
 
+.appContainer {
+  &:before {
+    content: "";
+    position: fixed;
+    left: -30px;
+    z-index: -1;
+    display: block;
+    background-image: url("assets/images/background.jpg");
+    background-size: cover;
+    width: 200vw;
+    height: 100vh;
+    @include blur(3px);
+  }
+}
 body {
-  background-image: url("assets/images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
   & * {
     font-family: ITCHandel, Etelka-Light, arial, serif;
   }
   .container {
     height: calc(100vh - 100px);
-    overflow-y: scroll;
+    @media screen and (max-width: 1024px) {
+      overflow-y: auto;
+    }
   }
 }

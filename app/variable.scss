@@ -112,3 +112,11 @@ $grid-sixth: #150e19;
   -moz-box-shadow: $option1, $option2;
   box-shadow: $option1, $option2;
 }
+
+@mixin blur($value) {
+  -webkit-filter: blur($value);
+  -moz-filter: blur($value);
+  -o-filter: blur($value);
+  -ms-filter: blur($value);
+  filter: blur($value);
+}
